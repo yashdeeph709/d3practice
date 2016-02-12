@@ -4,10 +4,18 @@
       var w = 500;
       var h = 300;
       
+      var xRange = Math.random() * 1000;
+      var yRange = Math.random() * 1000;
       var dataset = [
               [5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
               [410, 12], [475, 44], [25, 67], [85, 21], [220, 88],[600,150]
               ];
+              var numDataPoints = 10;
+              for (var i = 0; i < numDataPoints; i++) {
+                  var newNumber1 = Math.round(Math.random() * xRange);
+                  var newNumber2 = Math.round(Math.random() * yRange);
+                  dataset.push([newNumber1, newNumber2]);
+              }
       var padding = 20;
       //Create scale functions
       var xScale = d3.scale.linear()
@@ -26,7 +34,7 @@
             .append("svg")
             .attr("width", w)
             .attr("height", h);
-
+            svg.style("margin-left",50);
       svg.selectAll("circle")
          .data(dataset)
          .enter()
@@ -52,9 +60,9 @@
          .data(dataset)
          .enter()
          .append("text")
-         .text(function(d) {
+         /*.text(function(d) {
             return d[0] + "," + d[1];
-         })
+         })*/
          .attr("x", function(d) {
             return xScale(d[0]);
          })
@@ -63,7 +71,24 @@
          })
          .attr("font-family", "sans-serif")
          .attr("font-size", "11px")
-         .attr("fill", "blue");
-         var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+         .attr("fill", function(d){
+            if(d[1]<50){
+              return "indigo";
+            }else{
+              return "violet"; 
+            }
+          });
+         var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5);
          svg.append("g").classed("axis",true).attr("transform", "translate(0," + (h - padding) + ")").call(xAxis);
-    
+        //Define Y axis
+      var yAxis = d3.svg.axis()
+                .scale(yScale)
+                .orient("left")
+                .ticks(5);
+                var formatAsPercentage = d3.format(".1%");
+                xAxis.tickFormat(formatAsPercentage);
+//Create Y axis
+      svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + padding + ",0)")
+        .call(yAxis);
