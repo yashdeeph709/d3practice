@@ -1,55 +1,37 @@
+var dataset = [
+                [5, 20,"india"], [480, 90,"pak"], [250, 50,"china"], [100, 33,"nepal"], [330, 95,"bhutan"],
+                [410, 12,"bangladesh"], [475, 44,"UK"], [25, 67,"USA"], [85, 21,"Parris"], [220, 88,"Sweden"]
+              ];
+var svgWidth=500,svgHeight=200;
+var svg=d3.select("body")
+		  .append("svg")
+		  .attr("width",svgWidth)
+		  .attr("height",svgHeight);
+svg.selectAll("circle")
+   .data(dataset)
+   .enter()
+   .append('circle')
+   .attr('cx',function(d){
+   		return d[0];
+   })
+   .attr('cy',function(d){
+   		return d[1];
+   })
+   .attr("r", function(d){return Math.sqrt(svgHeight - d[1]);})
+   .style('fill', 'green');
 
-
-			//Width and height
-			var w = 500;
-			var h = 100;
-			var barPadding = 1;
-			
-			var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-			
-			//Create SVG element
-			var svg = d3.select("body")
-						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
-
-			svg.selectAll("rect")
-			   .data(dataset)
-			   .enter()
-			   .append("rect")
-			   .attr("x", function(d, i) {
-			   		return i * (w / dataset.length);
-			   })
-			   .attr("y", function(d) {
-			   		return h - (d * 4);
-			   })
-			   .attr("width", w / dataset.length - barPadding)
-			   .attr("height", function(d) {
-			   		return d * 4;
-			   })
-			   .attr("fill", function(d) {
-					return "rgb(0, 0, " + (d * 10) + ")";
-			   });
-
-			svg.selectAll("text")
-			   .data(dataset)
-			   .enter()
-			   .append("text")
-			   .text(function(d) {
-			   		return d;
-			   })
-			   .attr("text-anchor", "middle")
-			   .attr("x", function(d, i) {
-			   		return i * (w / dataset.length) + (w / dataset.length - barPadding) / 2;
-			   })
-			   .attr("y", function(d) {
-			   		return h - (d * 4) + 14;
-			   })
-			   .attr("font-family", "sans-serif")
-			   .attr("font-size", "11px")
-			   .attr("fill", "white");
-
-
-			
-		
+svg.selectAll("text")
+.data(dataset)
+.enter()
+.append("text")
+.text(function(d){
+	return d[2];
+})
+.attr('font-size',10)
+.attr("fill","yellow")
+.attr('x',function(d){
+   		return d[0]-Math.sqrt(svgHeight-d[1]);
+})
+.attr('y',function(d){
+	return d[1]
+})
