@@ -8,7 +8,7 @@
               [5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
               [410, 12], [475, 44], [25, 67], [85, 21], [220, 88],[600,150]
               ];
-var padding = 20;
+      var padding = 20;
       //Create scale functions
       var xScale = d3.scale.linear()
                  .domain([0, d3.max(dataset, function(d) { return d[0]; })])
@@ -31,6 +31,13 @@ var padding = 20;
          .data(dataset)
          .enter()
          .append("circle")
+         .attr("fill",function(d){
+            if(d[1]<50){
+              return "indigo";
+            }else{
+              return "violet"; 
+            }
+          })
          .attr("cx", function(d) {
             return xScale(d[0]);
          })
@@ -56,6 +63,7 @@ var padding = 20;
          })
          .attr("font-family", "sans-serif")
          .attr("font-size", "11px")
-         .attr("fill", "red");
-      
+         .attr("fill", "blue");
+         var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+         svg.append("g").classed("axis",true).attr("transform", "translate(0," + (h - padding) + ")").call(xAxis);
     
